@@ -49,9 +49,6 @@ theForm.addEventListener("submit", (e) => {
     let description = document.getElementById("event-description").value
     let seats = document.getElementById("event-seats").value
     let price = document.getElementById("event-price").value
-    if(title.value = " "){  
-        document.getElementById("event-title").style.border = "1px solid red";
-    }
     let variantname = document.getElementsByClassName("variant-row__name")[0].value;
     let variantqty = document.getElementsByClassName("variant-row__qty")[0].value;
     let variantvalue = document.getElementsByClassName("variant-row__value")[0].value;
@@ -95,14 +92,22 @@ function listofevents(){
                                     <td><span class="badge">0</span></td>
                                     <td>
                                         <button class="btn btn--small" data-action="details" onclick="modaal(${index})" data-event-id="1">Details</button>
-                                        <button class="btn btn--small" data-action="edit" data-event-id="1">Edit</button>
-                                        <button class="btn btn--danger btn--small" data-action="archive" data-event-id="1">Delete</button>
+                                        <button class="btn btn--small" data-action="edit" data-event-id="1" onclick= "editevent(${index})" >Edit</button>
+                                        <button class="btn btn--danger btn--small" data-action="archive" onclick="deleteevent(${index})" data-event-id="1">Delete</button>
                                     </td>
                                 </tr>`
     })
 }
 
 
+function deleteevent(index){
+    archive.push(events[index]);
+    localStorage.setItem("thearchive", JSON.stringify(archive))
+    events.splice(index, 1)
+    localStorage.setItem("eventos", JSON.stringify(events))
+    listofevents();
+    
+}
 
 
 
@@ -122,3 +127,8 @@ function modaal() {
 function closemodal(){
      modal.classList.add("is-hidden")
 }
+
+
+
+
+
