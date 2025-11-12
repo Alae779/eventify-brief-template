@@ -278,12 +278,12 @@
     </div>
 
     <!-- MODAL (hidden by default) -->
-    <div class="modal is-hidden" id="event-modal">
+    <div class="modal is-hidden" id="event-modal" >
         <div class="modal__overlay"></div>
         <div class="modal__content">
             <header class="modal__header">
                 <h3 class="modal__title" id="modal-title">Event Details</h3>
-                <button class="modal__close" data-action="close-modal">&times;</button>
+                <button class="modal__close" onclick="closemodal()" data-action="close-modal">&times;</button>
             </header>
             <div class="modal__body" id="modal-body">
                 <!-- Content populated by JS -->

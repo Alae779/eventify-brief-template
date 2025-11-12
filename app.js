@@ -94,10 +94,31 @@ function listofevents(){
                                     <td>${eventx.price}</td>
                                     <td><span class="badge">0</span></td>
                                     <td>
-                                        <button class="btn btn--small" data-action="details" data-event-id="1">Details</button>
+                                        <button class="btn btn--small" data-action="details" onclick="modaal(${index})" data-event-id="1">Details</button>
                                         <button class="btn btn--small" data-action="edit" data-event-id="1">Edit</button>
                                         <button class="btn btn--danger btn--small" data-action="archive" data-event-id="1">Delete</button>
                                     </td>
                                 </tr>`
     })
+}
+
+
+
+
+
+let modal = document.querySelector(".modal")
+
+function modaal() {
+    modal.classList.remove("is-hidden")
+    let modalcontent = document.querySelector(".modal__body")
+    events.forEach((modalx, index) => {
+        modalcontent.innerHTML = `
+    <td><h2>Title: </h2> ${modalx.title} <br></td>
+    <td><h2>Description: </h2> ${modalx.description}</td>
+    `
+    })
+    
+}
+function closemodal(){
+     modal.classList.add("is-hidden")
 }
