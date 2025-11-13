@@ -114,14 +114,37 @@ function listofevents(){
 }
 
 
-function deleteevent(index){
-    archive.push(events[index]);
-    localStorage.setItem("thearchive", JSON.stringify(archive))
-    events.splice(index, 1)
-    localStorage.setItem("eventos", JSON.stringify(events))
+function deleteevent(index) {
+    let events = JSON.parse(localStorage.getItem("eventos")) || [];
+    let archive = JSON.parse(localStorage.getItem("thearchive")) || [];
+    const removedevent = events.splice(index, 1)[0];
+    archive.push(removedevent);
+    localStorage.setItem("eventos", JSON.stringify(events));
+    localStorage.setItem("thearchive", JSON.stringify(archive));
     listofevents();
-    
-} 
+    listofarchive();
+}
+
+
+function listofarchive() {
+    const tablearchive = document.querySelector("#archive-table .table__body");
+    const archive = JSON.parse(localStorage.getItem("thearchive")) || [];
+    tablearchive.innerHTML = "";
+    archive.forEach((eventx, index) => {
+        tablearchive.innerHTML += `
+            <tr class="table__row" data-event-id="${index + 1}">
+                <td>${index + 1}</td>
+                <td>${eventx.title}</td>
+                <td>${eventx.seats}</td>
+                <td>${eventx.price}</td>
+                <td>
+                    <button class="btn btn--small" data-action="restore" onclick="restoreEvent(${index})">Restore</button>
+                </td>
+            </tr>`;
+    });
+}
+
+
 
 let modal = document.querySelector(".modal")
 
