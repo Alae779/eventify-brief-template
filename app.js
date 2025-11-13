@@ -41,11 +41,11 @@ buttonside.forEach(element => {
         else if(screeen=="Archive"){
             sectitle.textContent=screeen;
             secsubtitle.innerHTML="Your archived events";
+            listofarchive();
         }
         else if(screeen=="Statistics"){
             sectitle.textContent=screeen;
             secsubtitle.innerHTML="Overview of your events";
-            renderStats()
         }
         affichage.forEach(screen => screen.classList.toggle('is-visible', screen.dataset.screen === element.dataset.screen))
     })
@@ -55,11 +55,6 @@ theForm.addEventListener("submit", (e) => {
     e.preventDefault();
     let title = document.getElementById("event-title").value
     let img = document.getElementById("event-image").value
-    const imgPattern = /^(https?:\/\/)([a-z0-9\-._~:\/?#\[\]@!$&'()*+,;=%]+)\.(?:png|jpe?g|gif|webp|svg|bmp|tiff?|ico)(\?.*)?$/i;
-    if (img && !imgPattern.test(img)) {
-        alert("Please enter a valid image URL");
-        return;
-    }
     let description = document.getElementById("event-description").value
     let seats = document.getElementById("event-seats").value
     let price = document.getElementById("event-price").value
@@ -138,7 +133,7 @@ function listofarchive() {
                 <td>${eventx.seats}</td>
                 <td>${eventx.price}</td>
                 <td>
-                    <button class="btn btn--small" data-action="restore" onclick = "restoreevent()"(${index})">Restore</button>
+                    <button class="btn btn--small" data-action="restore" onclick="restoreevent(${index})">Restore</button>
                 </td>
             </tr>`;
     });
