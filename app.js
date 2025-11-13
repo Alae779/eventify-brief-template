@@ -46,6 +46,7 @@ buttonside.forEach(element => {
         else if(screeen=="Statistics"){
             sectitle.textContent=screeen;
             secsubtitle.innerHTML="Overview of your events";
+            renderStats();
         }
         affichage.forEach(screen => screen.classList.toggle('is-visible', screen.dataset.screen === element.dataset.screen))
     })
@@ -214,7 +215,17 @@ function closemodal(){
  
 
 
-
+function renderStats() {
+    let totalEvents = document.getElementsByClassName("stat-card__value")[0]
+    totalEvents = events.length;
+    let totalSeats = document.getElementsByClassName("stat-card__value")[1]
+    totalSeats = events.reduce((sum, e) => sum + e.seats, 0);
+    let totalPrice = document.getElementsByClassName("stat-card__value")[2]
+    totalPrice = events.reduce((sum, e) => sum + e.price * e.seats, 0);
+    document.getElementById('stat-total-events').textContent = totalEvents;
+    document.getElementById('stat-total-seats').textContent = totalSeats;
+    document.getElementById('stat-total-price').textContent = '$' + totalPrice.toFixed(2);
+}
 
 
 
