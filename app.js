@@ -8,6 +8,12 @@ let secsubtitle = subtitle.querySelector("p") ;
 
 
 
+if(localStorage.getItem('eventos')){
+    let data = localStorage.getItem('eventos');
+    data = JSON.parse(data);
+    events = data;
+}
+
 
 const buttonside = document.querySelectorAll(".sidebar__btn")
 let affichage = document.querySelectorAll("section[data-screen]")
@@ -29,6 +35,8 @@ buttonside.forEach(element => {
         else if(screeen=="Events"){
             sectitle.textContent=screeen;
             secsubtitle.innerHTML="Your events list";
+            listofevents();
+            
         }
         else if(screeen=="Archive"){
             sectitle.textContent=screeen;
@@ -67,7 +75,7 @@ theForm.addEventListener("submit", (e) => {
     localStorage.setItem("eventos", JSON.stringify(events));
     theForm.reset()
     listofevents()
-
+    renderStats()
     // let variantobj = {
     //     name: variantname,
     //     quantity: variantqty,
@@ -79,11 +87,11 @@ theForm.addEventListener("submit", (e) => {
 
 
 function listofevents(){
-    let body_tt = document.querySelector(".table__body")
+    let bodytable = document.querySelector(".table__body")
     events = JSON.parse(localStorage.getItem("eventos")) || [];
-    body_tt.innerHTML = "";
+    bodytable.innerHTML = "";
     events.forEach((eventx, index) => {
-        body_tt.innerHTML += `
+        bodytable.innerHTML += `
         <tr class="table__row" data-event-id="1">
                                     <td>${index + 1}</td>
                                     <td>${eventx.title}</td>
@@ -107,27 +115,65 @@ function deleteevent(index){
     localStorage.setItem("eventos", JSON.stringify(events))
     listofevents();
     
-}
-
-
+} 
 
 let modal = document.querySelector(".modal")
 
-function modaal() {
-    modal.classList.remove("is-hidden")
-    let modalcontent = document.querySelector(".modal__body")
-    events.forEach((modalx, index) => {
-        modalcontent.innerHTML = `
-    <td><h2>Title: </h2> ${modalx.title} <br></td>
-    <td><h2>Description: </h2> ${modalx.description}</td>
-    `
-    })
-    
+function modaal(index) {
+    modal.classList.remove("is-hidden");
+    let modalcontent = document.querySelector(".modal__body");
+    const modalx = events[index];
+    modalcontent.innerHTML = `
+        <td><h2>Title: </h2> ${modalx.title} <br></td>
+        <td><h2>Description: </h2> ${modalx.description}</td>
+    `;
 }
+
+
+
+
+
+
+
+const theselectedsort = document.getElementById("sort-events");
+
+theselectedsort.addEventListener("change", () => {
+  sortfn(theselectedsort.value);
+  listofevents();
+});
+
+function sortfn(typeofasort) {
+  let events = JSON.parse(localStorage.getItem("eventos")) || [];
+
+  for (let i = 0; i < events.length - 1; i++) {
+    for (let j = 0; j < events.length - i - 1; j++) {
+      const a = events[j], b = events[j + 1];
+
+        if (typeofasort === "title-asc" && a.title.localeCompare(b.title) > 0)
+            [events[j], events[j + 1]] = [b, a]
+        else if (typeofasort === "title-desc" && a.title.localeCompare(b.title) < 0)
+            [events[j], events[j + 1]] = [b, a];
+        else if (typeofasort === "price-asc" && parseFloat(a.price) > parseFloat(b.price))
+            [events[j], events[j + 1]] = [b, a]
+        else if (typeofasort === "price-desc" && parseFloat(a.price) < parseFloat(b.price))
+            [events[j], events[j + 1]] = [b, a]
+        else if (typeofasort === "seats-asc" && parseInt(a.seats) > parseInt(b.seats))
+            [events[j], events[j + 1]] = [b, a]
+    }
+  }
+
+  localStorage.setItem("eventos", JSON.stringify(events));
+}
+
+
+
+
+
+
 function closemodal(){
      modal.classList.add("is-hidden")
 }
-
+ 
 
 
 
