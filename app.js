@@ -138,12 +138,26 @@ function listofarchive() {
                 <td>${eventx.seats}</td>
                 <td>${eventx.price}</td>
                 <td>
-                    <button class="btn btn--small" data-action="restore" onclick="restoreEvent(${index})">Restore</button>
+                    <button class="btn btn--small" data-action="restore" onclick = "restoreevent()"(${index})">Restore</button>
                 </td>
             </tr>`;
     });
 }
 
+
+function restoreevent(index) {
+    let events = JSON.parse(localStorage.getItem("eventos")) || [];
+    let archive = JSON.parse(localStorage.getItem("thearchive")) || [];
+
+    const restored = archive.splice(index, 1)[0];
+    events.push(restored);
+
+    localStorage.setItem("eventos", JSON.stringify(events));
+    localStorage.setItem("thearchive", JSON.stringify(archive));
+
+    listofevents();
+    listofarchive();
+}
 
 
 let modal = document.querySelector(".modal")
